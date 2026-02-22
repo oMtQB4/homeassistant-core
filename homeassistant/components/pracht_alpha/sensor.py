@@ -15,6 +15,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     EntityCategory,
     UnitOfElectricCurrent,
+    UnitOfEnergy,
     UnitOfPower,
     UnitOfTemperature,
 )
@@ -126,6 +127,28 @@ DESCRIPTIONS: tuple[PrachtAlphaSensorDescription, ...] = (
         value_fn=lambda x: (
             utcnow().replace(microsecond=0) - timedelta(milliseconds=x.all_data.uptime)
         ),
+    ),
+    PrachtAlphaSensorDescription(
+        key="energy_car1",
+        translation_key="energy_car1",
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        suggested_display_precision=2,
+        has_fn=lambda x: x.all_data.energy_car1 is not None,
+        value_fn=lambda x: x.all_data.energy_car1,
+    ),
+    PrachtAlphaSensorDescription(
+        key="energy_car2",
+        translation_key="energy_car2",
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        suggested_display_precision=2,
+        has_fn=lambda x: (
+            x.all_data.num_charging_points == 2 and x.all_data.energy_car2 is not None
+        ),
+        value_fn=lambda x: x.all_data.energy_car2,
     ),
 )
 

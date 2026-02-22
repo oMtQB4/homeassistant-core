@@ -83,6 +83,12 @@
       "current_car2": {
         "name": "Current right"
       },
+      "energy_car1": {
+        "name": "Energy left"
+      },
+      "energy_car2": {
+        "name": "Energy right"
+      },
       "power_car1": {
         "name": "Power left"
       },

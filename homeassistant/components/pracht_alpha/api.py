@@ -48,6 +48,8 @@ class PrachtAlphaData:
     comm_pcb_temperature: float
     box_temperature: float
     current_setting_input_lead: int
+    energy_car1: float | None
+    energy_car2: float | None
 
 
 @dataclass
@@ -93,6 +95,8 @@ def _parse_all_data(data: dict[str, Any]) -> PrachtAlphaData:
         comm_pcb_temperature=data.get("CommPcbTemperature", 0.0),
         box_temperature=data.get("BoxTemperature", 0.0),
         current_setting_input_lead=data.get("CurrentSettingInputLead", 0),
+        energy_car1=data.get("EnergyCar1"),
+        energy_car2=data.get("EnergyCar2"),
     )
 
 
