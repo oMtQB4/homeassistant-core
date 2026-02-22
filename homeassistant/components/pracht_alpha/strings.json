@@ -1,0 +1,136 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "This wallbox is already configured",
+      "reauth_successful": "Re-authentication was successful"
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the wallbox",
+      "invalid_auth": "Invalid password",
+      "unknown": "Unexpected error"
+    },
+    "step": {
+      "reauth_confirm": {
+        "data": {
+          "password": "Password"
+        },
+        "description": "The authentication for your Pracht Alpha wallbox has expired. Please enter the new password.",
+        "title": "Re-authenticate Pracht Alpha"
+      },
+      "user": {
+        "data": {
+          "host": "Host",
+          "password": "Password"
+        },
+        "description": "Set up your Pracht Alpha wallbox.",
+        "title": "Connect to Pracht Alpha"
+      },
+      "zeroconf_confirm": {
+        "data": {
+          "password": "Password"
+        },
+        "description": "A Pracht Alpha wallbox was discovered at {host} ({hostname}). Enter the password to complete setup.",
+        "title": "Discovered Pracht Alpha"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "car1_charging": {
+        "name": "Charging left"
+      },
+      "car1_connected": {
+        "name": "Connected left"
+      },
+      "car2_charging": {
+        "name": "Charging right"
+      },
+      "car2_connected": {
+        "name": "Connected right"
+      }
+    },
+    "number": {
+      "max_current_car1": {
+        "name": "Max current left"
+      },
+      "max_current_car2": {
+        "name": "Max current right"
+      },
+      "max_current_total": {
+        "name": "Max current total"
+      }
+    },
+    "select": {
+      "led_mode": {
+        "name": "LED mode",
+        "state": {
+          "off": "Off",
+          "on": "On",
+          "on_if_required": "On if required"
+        }
+      }
+    },
+    "sensor": {
+      "box_temperature": {
+        "name": "Box temperature"
+      },
+      "comm_pcb_temperature": {
+        "name": "Communication PCB temperature"
+      },
+      "current_car1": {
+        "name": "Current left"
+      },
+      "current_car2": {
+        "name": "Current right"
+      },
+      "power_car1": {
+        "name": "Power left"
+      },
+      "power_car2": {
+        "name": "Power right"
+      },
+      "status_car1": {
+        "name": "Status left",
+        "state": {
+          "charging": "Charging",
+          "charging_with_cooling": "Charging with cooling",
+          "connected": "Connected",
+          "disconnected": "Disconnected",
+          "error": "Error"
+        }
+      },
+      "status_car2": {
+        "name": "Status right",
+        "state": {
+          "charging": "Charging",
+          "charging_with_cooling": "Charging with cooling",
+          "connected": "Connected",
+          "disconnected": "Disconnected",
+          "error": "Error"
+        }
+      },
+      "uptime": {
+        "name": "Uptime"
+      }
+    },
+    "switch": {
+      "lock_side1": {
+        "name": "Lock station left"
+      },
+      "lock_side2": {
+        "name": "Lock station right"
+      }
+    }
+  },
+  "exceptions": {
+    "authentication_error": {
+      "message": "Authentication failed with the Pracht Alpha wallbox"
+    },
+    "communication_error": {
+      "message": "Communication error with the Pracht Alpha wallbox: {error}"
+    },
+    "unknown_error": {
+      "message": "Unknown error communicating with the Pracht Alpha wallbox: {error}"
+    }
+  }
+}
