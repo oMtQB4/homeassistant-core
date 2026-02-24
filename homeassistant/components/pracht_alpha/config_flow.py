@@ -87,9 +87,11 @@ class PrachtAlphaFlowHandler(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Handle zeroconf discovery of a Pracht Alpha device."""
         self._discovery_info = discovery_info
+        host = str(discovery_info.ip_address)
 
-        # Try to get device_id for unique_id by connecting without auth
-        # We'll set the unique_id during the confirm step after login
+        # Abort if this host is already configured
+        self._async_abort_entries_match({CONF_HOST: host})
+
         self.context.update(
             {
                 "title_placeholders": {"name": discovery_info.hostname.rstrip(".")},

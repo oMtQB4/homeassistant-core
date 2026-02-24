@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+import time
 from typing import Any
 
 from homeassistant.components.switch import (
@@ -16,6 +17,8 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PrachtAlphaConfigEntry, PrachtAlphaCoordinatorData
 from .entity import PrachtAlphaEntity
+
+LOCK_COOLDOWN_SECONDS = 20
 
 PARALLEL_UPDATES = 1
 
@@ -77,18 +80,30 @@ class PrachtAlphaSwitchEntity(PrachtAlphaEntity, SwitchEntity):
     """Defines a Pracht Alpha switch entity for lock/unlock."""
 
     entity_description: PrachtAlphaSwitchDescription
+    _assumed_state: bool | None = None
+    _assumed_state_until: float = 0.0
 
     @property
     def is_on(self) -> bool:
         """Return true if the side is locked."""
+        if (
+            self._assumed_state is not None
+            and time.monotonic() < self._assumed_state_until
+        ):
+            return self._assumed_state
+        self._assumed_state = None
         return self.entity_description.is_on_fn(self.coordinator.data)
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Lock the side."""
         await self.coordinator.api.lock(self.entity_description.side)
-        await self.coordinator.async_request_refresh()
+        self._assumed_state = True
+        self._assumed_state_until = time.monotonic() + LOCK_COOLDOWN_SECONDS
+        self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Unlock the side."""
         await self.coordinator.api.unlock(self.entity_description.side)
-        await self.coordinator.async_request_refresh()
+        self._assumed_state = False
+        self._assumed_state_until = time.monotonic() + LOCK_COOLDOWN_SECONDS
+        self.async_write_ha_state()

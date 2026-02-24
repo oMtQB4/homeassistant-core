@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import logging
 from typing import Any
 
 import aiohttp
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class PrachtAlphaAuthError(Exception):
@@ -211,7 +214,10 @@ class PrachtAlphaApi:
 
     async def set_power(self, max_total: int, max_car1: int, max_car2: int) -> None:
         """Set current levels via POST /api/v1/power."""
-        await self._request(
+        _LOGGER.debug(
+            "Setting power: total=%s, car1=%s, car2=%s", max_total, max_car1, max_car2
+        )
+        result = await self._request(
             "POST",
             "/api/v1/power",
             json_data={
@@ -220,6 +226,7 @@ class PrachtAlphaApi:
                 "MaxCurrentCar2": max_car2,
             },
         )
+        _LOGGER.debug("set_power response: %s", result)
 
     async def lock(self, side: int) -> None:
         """Lock a side of the wallbox."""
